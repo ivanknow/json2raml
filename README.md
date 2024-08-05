@@ -17,6 +17,7 @@ to run locally: php -S localhost:8000
   "skills": ["PHP", "JavaScript"]
 }
 
+```
 # xml sample:
 
 
@@ -36,3 +37,5 @@ to run locally: php -S localhost:8000
     </skills>
 
 </user>
+
+```
