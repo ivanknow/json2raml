@@ -2,7 +2,10 @@
 
 to run locally: php -S localhost:8000
 
-json sample:
+# json sample:
+
+
+```{}
 {
   "name": "John",
   "age": 30,
@@ -14,7 +17,11 @@ json sample:
   "skills": ["PHP", "JavaScript"]
 }
 
-xml sample:
+# xml sample:
+
+
+```{}
+<?xml version="1.0" encoding="ISO-8859-1"?>  
 <user>
     <name>John</name>
     <age>30</age>
