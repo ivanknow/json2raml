@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to RAML Converter</title>
+   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/offcanvas-navbar/">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+ 
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">JSON to RAML Converter</h1>
+        <form id="json-form">
+            <div class="mb-3">
+                <label for="jsonInput" class="form-label">JSON Input</label>
+                <textarea class="form-control" id="jsonInput" rows="10" placeholder="Enter JSON text here..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Convert</button>
+        </form>
+        <form id="xml-form" class="mt-5">
+            <div class="mb-3">
+                <label for="xmlInput" class="form-label">XML Input</label>
+                <textarea class="form-control" id="xmlInput" rows="10" placeholder="Enter XML text here..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Convert XML</button>
+        </form>
+        <div class="mt-5">
+            <h2>RAML Output</h2>
+            <pre id="ramlOutput" class="bg-light p-3 border rounded"></pre>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#json-form').on('submit', function(event) {
+                event.preventDefault();
+
+                const jsonInput = $('#jsonInput').val();
+                if (jsonInput.trim() === '') {
+                    alert('Please enter valid JSON.');
+                    return;
+                }
+
+                $.ajax({
+                    url: 'src/json_to_raml.php', // Replace with the actual URL to your PHP endpoint
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: jsonInput,
+                    success: function(response) {
+                        if (response.raml) {
+                            $('#ramlOutput').text(response.raml);
+                        } else {
+                            $('#ramlOutput').text('Error converting JSON to RAML.');
+                        }
+                    },
+                    error: function() {
+                        $('#ramlOutput').text('Error processing the request.');
+                    }
+                });
+            });
+        });
+
+        $('#xml-form').on('submit', function(event) {
+                event.preventDefault();
+
+                const xmlInput = $('#xmlInput').val();
+                if (xmlInput.trim() === '') {
+                    alert('Please enter valid XML.');
+                    return;
+                }
+
+                $.ajax({
+                    url: 'src/xml_to_raml.php', // Replace with the actual URL to your XML to RAML PHP endpoint
+                    method: 'POST',
+                    contentType: 'application/xml',
+                    data: xmlInput,
+                    success: function(response) {
+                        if (response.raml) {
+                            $('#ramlOutput').text(response.raml);
+                        } else {
+                            $('#ramlOutput').text('Error converting XML to RAML.');
+                        }
+                    },
+                    error: function() {
+                        $('#ramlOutput').text('Error processing the request.');
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
