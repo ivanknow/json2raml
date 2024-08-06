@@ -28,6 +28,20 @@
             </div>
             <button type="submit" class="btn btn-primary">Convert XML</button>
         </form>
+        <form id="csharp-form" class="mt-5">
+            <div class="mb-3">
+                <label for="csharpInput" class="form-label">C# Class Input</label>
+                <textarea class="form-control" id="csharpInput" rows="10" placeholder="Enter C# class text here..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Convert C#</button>
+        </form>
+        <form id="java-form" class="mt-5">
+            <div class="mb-3">
+                <label for="javaInput" class="form-label">Java Class Input</label>
+                <textarea class="form-control" id="javaInput" rows="10" placeholder="Enter Java class text here..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Convert Java</button>
+        </form>
         <div class="mt-5">
             <h2>RAML Output</h2>
             <pre id="ramlOutput" class="bg-light p-3 border rounded"></pre>
@@ -62,6 +76,61 @@
                     }
                 });
             });
+
+            $('#csharp-form').on('submit', function(event) {
+                event.preventDefault();
+
+                const csharpInput = $('#csharpInput').val();
+                if (csharpInput.trim() === '') {
+                    alert('Please enter valid C# class.');
+                    return;
+                }
+
+                $.ajax({
+                    url: 'src/csharpclass_to_raml.php', // Replace with the actual URL to your C# to RAML PHP endpoint
+                    method: 'POST',
+                    contentType: 'text/plain',
+                    data: csharpInput,
+                    success: function(response) {
+                        if (response.raml) {
+                            $('#ramlOutput').text(response.raml);
+                        } else {
+                            $('#ramlOutput').text('Error converting C# to RAML.');
+                        }
+                    },
+                    error: function() {
+                        $('#ramlOutput').text('Error processing the request.');
+                    }
+                });
+            });
+
+            $('#java-form').on('submit', function(event) {
+                event.preventDefault();
+
+                const javaInput = $('#javaInput').val();
+                if (javaInput.trim() === '') {
+                    alert('Please enter valid Java class.');
+                    return;
+                }
+
+                $.ajax({
+                    url: 'src/javaclass_to_raml.php', // Replace with the actual URL to your Java to RAML PHP endpoint
+                    method: 'POST',
+                    contentType: 'text/plain',
+                    data: javaInput,
+                    success: function(response) {
+                        if (response.raml) {
+                            $('#ramlOutput').text(response.raml);
+                        } else {
+                            $('#ramlOutput').text('Error converting Java to RAML.');
+                        }
+                    },
+                    error: function() {
+                        $('#ramlOutput').text('Error processing the request.');
+                    }
+                });
+            });
+            
         });
 
         $('#xml-form').on('submit', function(event) {
@@ -89,6 +158,8 @@
                         $('#ramlOutput').text('Error processing the request.');
                     }
                 });
+
+                
             });
     </script>
 </body>
